@@ -24,9 +24,16 @@
 
     $('#new-form').submit( function( event ) {
       event.preventDefault();
-      console.log("intercepted");
       var textbox = $('.new-todo');
-      console.log("Task: ", textbox.val());
+      // the "payload"
+      var payload = {
+        task: {
+          title: textbox.val()
+        }
+      };
+      $.post("/tasks", payload).success( function( data ) {
+        console.log("Successful HTTML Request");
+      });
     });
 
     // taskHtml takes in a JS representation of the task, that came from the JSON response, and produces an HTML representation using <li> tags
