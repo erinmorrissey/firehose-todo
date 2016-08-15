@@ -1,6 +1,9 @@
 <section class="todoapp">
   <header class="header">
     <h1>foood</h1>
+    <form id="new-form">
+      <input type="text" class="new-todo" />
+    </form>
   </header>
 
   <section class="main">
@@ -18,6 +21,13 @@
 
   // registers all code within curly braces to be executed after the page loads
   $(function() {
+
+    $('#new-form').submit( function( event ) {
+      event.preventDefault();
+      console.log("intercepted");
+      var textbox = $('.new-todo');
+      console.log("Task: ", textbox.val());
+    });
 
     // taskHtml takes in a JS representation of the task, that came from the JSON response, and produces an HTML representation using <li> tags
     function taskHtml(task) {
