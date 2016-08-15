@@ -22,20 +22,6 @@
   // registers all code within curly braces to be executed after the page loads
   $(function() {
 
-    $('#new-form').submit( function( event ) {
-      event.preventDefault();
-      var textbox = $('.new-todo');
-      // the "payload"
-      var payload = {
-        task: {
-          title: textbox.val()
-        }
-      };
-      $.post("/tasks", payload).success( function( data ) {
-        console.log("Successful HTTML Request");
-      });
-    });
-
     // taskHtml takes in a JS representation of the task, that came from the JSON response, and produces an HTML representation using <li> tags
     function taskHtml(task) {
       var checkedStatus = task.done ? 'checked' : '';
@@ -75,5 +61,24 @@
       $('.toggle').change(toggleTask);
 
     });
+
+    // handles new task data submission to the DB
+    $('#new-form').submit( function( event ) {
+      event.preventDefault();
+      var textbox = $('.new-todo');
+      // the "payload"
+      var payload = {
+        task: {
+          title: textbox.val()
+        }
+      };
+      $.post("/tasks", payload).success( function( data ) {
+        var htmlString = taskHtml(data);
+        var ulTodos = $('.todo-list');
+        ulTodos.append(htmlString);
+        $('.toggle').click(toggleTask);
+      });
+    });
+
   });
 </script>
