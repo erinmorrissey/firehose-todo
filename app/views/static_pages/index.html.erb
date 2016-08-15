@@ -4,6 +4,43 @@
   </header>
 
   <section class="main">
+    <ul class="todo-list">
 
+    </ul>
   </section>
 </section>
+
+
+
+
+
+<script>
+
+  // registers all code within curly braces to be executed after the page loads
+  $(function() {
+
+    // we call the method .success on the OBJECT that the $.get value returns, which allows us to set a callback function to run when a successful response happens
+    // we set 'data' to equal the JSON response
+    $.get('/tasks').success( function( data ) {
+
+      // builds an empty var to store the ENTIRE block of li code
+      var htmlString = '';
+
+      $.each(data, function(index, task) {
+
+        var liElement = '<li><div class="view"><input class="toggle" type="checkbox"><label>' + task.title + '</label></div></li>';
+
+        // pops the liElement into htmlString
+        htmlString += liElement;
+
+      });
+
+      // grabs the ul element with class of .todo-list
+      var ulTodos = $('.todo-list');
+
+      // inserts htmlString code INTO the ul block
+      ulTodos.html(htmlString);
+
+    });
+  });
+</script>
