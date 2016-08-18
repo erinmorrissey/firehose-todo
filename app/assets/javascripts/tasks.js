@@ -7,7 +7,7 @@ $(function() {
   function taskHtml(task) {
     var checkedStatus = task.done ? 'checked' : '';
     var liClass = task.done ? 'completed' : '';
-    var liElement = '<li id="listItem-' + task.id + '" class="' + liClass + '"><div class="view"><input class="toggle" type="checkbox" data-id="' + task.id + '"' + checkedStatus + '><label>' + task.title + '</label></div></li>';
+    var liElement = '<li id="listItem-' + task.id + '" class="' + liClass + '"><div class="view"><input class="toggle" type="checkbox" data-id="' + task.id + '"' + checkedStatus + '><label>' + task.title + '</label><button class="destroy"></button></div></li>';
     return liElement;
   }
 
@@ -71,6 +71,20 @@ $(function() {
       ulTodos.append(htmlString);
       $('.toggle').click(toggleTask);
       $('.new-todo').val('');
+    });
+  });
+
+  // destroy task
+  $('.todo-list').on('click', '.destroy', function() {
+    var itemId = $(this).siblings('input').data('id');
+    var liId = $(this).closest('li')
+    $.ajax({
+      url: "/tasks/" + itemId,
+      type: 'DELETE',
+      success: function(result) {
+        // Don't need to do something *with the result*, but need to do something
+        liId.remove();
+      }
     });
   });
 
